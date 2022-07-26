@@ -1,6 +1,7 @@
 package userregister.usercore.dao.entity;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 public class Register {
@@ -10,6 +11,8 @@ public class Register {
     private Long id;
     private String phoneNumber;
     private String code;
+
+    private Date createTime;
 
     @OneToOne(mappedBy = "register")
     private User user;
@@ -39,6 +42,15 @@ public class Register {
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    public Register setCreateTime(Date createTime) {
+        this.createTime = createTime;
+        return this;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
     }
 }
 

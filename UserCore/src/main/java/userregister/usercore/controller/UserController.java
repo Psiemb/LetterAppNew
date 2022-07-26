@@ -16,6 +16,7 @@ import userregister.usercore.utils.RefreshToken;
 import userregister.usercore.utils.Validator;
 import userregister.usercore.utils.Validator2;
 
+import java.util.Date;
 import java.util.Objects;
 
 @RestController
@@ -48,8 +49,9 @@ public class UserController {
         }
 
         String code = codeGenerator.code();
+        Date startTime = new Date();
 
-        Register register = registerMapper.getRegister(number, code);
+        Register register = registerMapper.getRegister(number, code, startTime);
 
         registerManager.addNewRegisterUser(register);
         return ResponseEntity.ok().build();
