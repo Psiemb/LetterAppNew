@@ -11,7 +11,6 @@ public class Register {
     private Long id;
     private String phoneNumber;
     private String code;
-
     private Date createTime;
 
     @OneToOne(mappedBy = "register")
@@ -24,24 +23,31 @@ public class Register {
         return id;
     }
 
-    public void setId(Long id) {
+    public Register setId(Long id) {
         this.id = id;
+        return this;
     }
 
     public String getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
+    public Register setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+        return this;
     }
 
     public String getCode() {
         return code;
     }
 
-    public void setCode(String code) {
+    public Register setCode(String code) {
         this.code = code;
+        return this;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
     }
 
     public Register setCreateTime(Date createTime) {
@@ -49,8 +55,13 @@ public class Register {
         return this;
     }
 
-    public Date getCreateTime() {
-        return createTime;
+    public User getUser() {
+        return user;
+    }
+
+    public Register setUser(User user) {
+        this.user = user;
+        return this;
     }
 }
 

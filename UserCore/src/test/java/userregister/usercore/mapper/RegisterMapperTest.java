@@ -19,7 +19,7 @@ class RegisterMapperTest {
     @Test
     void checkIfWorkingWhenHappyPath() {
         //when
-        Register result = registerMapper.getRegister("r23231", "21321");
+        Register result = registerMapper.createRegister("r23231", "21321");
 
         //then
         assertEquals("r23231", result.getPhoneNumber());
@@ -30,7 +30,7 @@ class RegisterMapperTest {
     void shouldReturnNullWhenNumberIsNull() {
 
         //when
-        Register result = registerMapper.getRegister(null, "wer");
+        Register result = registerMapper.createRegister(null, "wer");
 
         //then
         assertNull(result);
@@ -46,7 +46,7 @@ class RegisterMapperTest {
 //        assertEquals(null, result.getCode());
 
         //when
-        Register result = registerMapper.getRegister("dsf", null);
+        Register result = registerMapper.createRegister("dsf", null);
 
         //then
         assertNull(result);
@@ -55,7 +55,7 @@ class RegisterMapperTest {
     void shouldReturnNullWhenNumberAndCodeIsNull() {
 
         //when
-        Register result = registerMapper.getRegister(null, null);
+        Register result = registerMapper.createRegister(null, null);
 
         //then
         assertNull(result);

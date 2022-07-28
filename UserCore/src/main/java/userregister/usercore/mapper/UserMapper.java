@@ -8,7 +8,7 @@ import java.util.Objects;
 @Component
 public class UserMapper {
 
-    public User getUser(String phoneNumber, String refreshToken) {
+    public User createUser(String phoneNumber, String refreshToken) {
         if (Objects.isNull(phoneNumber) || Objects.isNull(refreshToken)) {
             return null;
         }

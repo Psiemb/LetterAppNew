@@ -1,5 +1,6 @@
 package userregister.usercore.controller;
 
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +23,7 @@ import java.util.Objects;
 @RestController
 public class UserController {
 
+    private static final int DELAY_TIME = 15;
     private final Validator validator;
     private final Validator2 validator2;
     private final CodeGenerator codeGenerator;
@@ -41,37 +43,28 @@ public class UserController {
         this.userMapper = userMapper;
     }
 
-    @PostMapping("/add")
+    @PostMapping("/create")
     public ResponseEntity<String> userRegister(@RequestParam String number) {
-
         if (!validator.validatePhoneNumber(number)) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Please, give proper number");
         }
-
-        String code = codeGenerator.code();
-        Date startTime = new Date();
-
-        Register register = registerMapper.getRegister(number, code, startTime);
-
-        registerManager.addNewRegisterUser(register);
+        Register register = registerMapper.createRegister(number, codeGenerator.code());
+        saveRegister(register);
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/add2")
+    @PostMapping("/log")
     public ResponseEntity<String> userRegister2(@RequestParam String number, @RequestParam String code) {
-
         if (!validator2.validatePhoneNumberAndCode(number, code)) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Please, give proper number");
         }
-
         Register register = registerManager.findByPhoneNumber(number);
+        boolean valid = codeValidityTime(register.getCreateTime());
 
-        if (Objects.nonNull(register) && register.getCode().equals(code)) {
+        if (register.getCode().equals(code) && valid) {
             String token = refreshToken.tokenCreator();
-
-            User user = userMapper.getUser(number, token);
-
-            registerManager.addUser(user);
+            User user = userMapper.createUser(number, token);
+            saveUser(user);
             return ResponseEntity.status(HttpStatus.OK).body(token);
         }
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
@@ -124,6 +117,19 @@ public class UserController {
         }
         isLoggedResponse.setLogged(false);
         return ResponseEntity.ok(isLoggedResponse);
+    }
+
+    private Register saveRegister(Register register) {
+        return registerManager.addRegister(register);
+    }
+
+    public User saveUser(User user) {
+        return registerManager.addUser(user);
+    }
+
+    private boolean codeValidityTime(Date startTime) {
+        Date endDate = DateUtils.addMinutes(startTime, DELAY_TIME);
+        return endDate.after(new Date());
     }
 }
 

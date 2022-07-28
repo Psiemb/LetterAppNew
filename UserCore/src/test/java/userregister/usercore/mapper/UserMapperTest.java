@@ -19,7 +19,7 @@ class UserMapperTest {
     void checkIfWorkingWhenHappyPath(){
 
         //when
-        User user = userMapper.getUser("123456789", "1234567899");
+        User user = userMapper.createUser("123456789", "1234567899");
 
         //then
         assertEquals("123456789", user.getPhoneNumber());
@@ -30,7 +30,7 @@ class UserMapperTest {
     void shouldReturnNullIfPhoneNumberIsNull(){
 
         //when
-        User user = userMapper.getUser(null, "1234567899");
+        User user = userMapper.createUser(null, "1234567899");
 
         //then
         assertNull(user);
@@ -40,7 +40,7 @@ class UserMapperTest {
     void shouldReturnNullIfRefreshTokenIsNull(){
 
         //when
-        User user = userMapper.getUser("123456789", null);
+        User user = userMapper.createUser("123456789", null);
 
         //then
 //        assertEquals("123456789",user.getPhoneNumber());
@@ -51,7 +51,7 @@ class UserMapperTest {
     void shouldReturnNullIfPhoneNumberAndRefreshTokenIsNull(){
 
         //when
-        User result = userMapper.getUser(null, null);
+        User result = userMapper.createUser(null, null);
 
         //then
         assertNull(result);

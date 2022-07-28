@@ -17,7 +17,7 @@ public class RegisterManager {
         this.userRepository = userRepository;
     }
 
-    public Register addNewRegisterUser(Register register) {
+    public Register addRegister(Register register) {
         return registerRepository.save(register);
     }
 
