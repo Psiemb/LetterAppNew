@@ -78,6 +78,8 @@ public class LetterController {
         return null;
     }
 
+    // Zmiana 1 na NOWY_BRANCH_1
+
     @PostMapping("/byPhoneNumber")
     public ResponseEntity<LettersByPhoneNumber> getByPhoneNumber(@RequestBody RequestByPhoneNumber requestByPhoneNumber) {
 
