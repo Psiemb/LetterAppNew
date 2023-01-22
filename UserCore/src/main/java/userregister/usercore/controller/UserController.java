@@ -1,6 +1,5 @@
 package userregister.usercore.controller;
 
-import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +16,6 @@ import userregister.usercore.utils.RefreshToken;
 import userregister.usercore.utils.Validator;
 import userregister.usercore.utils.Validator2;
 
-import java.util.Date;
 import java.util.Objects;
 
 @RestController
@@ -59,9 +57,10 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Please, give proper number");
         }
         Register register = registerManager.findByPhoneNumber(number);
-        boolean valid = codeValidityTime(register.getCreateTime());
+//        boolean valid = codeValidityTime(register.getCreateTime());
 
-        if (register.getCode().equals(code) && valid) {
+//        if (register.getCode().equals(code) && valid) {
+        if (register.getCode().equals(code)) {
             String token = refreshToken.tokenCreator();
             User user = userMapper.createUser(number, token);
             saveUser(user);
@@ -127,10 +126,10 @@ public class UserController {
         return registerManager.addUser(user);
     }
 
-    private boolean codeValidityTime(Date startTime) {
-        Date endDate = DateUtils.addMinutes(startTime, DELAY_TIME);
-        return endDate.after(new Date());
-    }
+//    private boolean codeValidityTime(Date startTime) {
+//        Date endDate = DateUtils.addMinutes(startTime, DELAY_TIME);
+//        return endDate.after(new Date());
+//    }
 }
 
 

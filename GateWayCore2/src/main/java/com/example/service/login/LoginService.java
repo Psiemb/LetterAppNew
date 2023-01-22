@@ -16,7 +16,7 @@ public class LoginService {
     private final RestTemplate restTemplate = new RestTemplate();
 
     public ResponseEntity<LoginResponse> getLogin(String phoneNumber, String token) {
-        String url = "http://localhost:8081/login?number=" + phoneNumber + "&freshToken=" + token;
+        String url = "http://localhost:8081/login?number=" + phoneNumber + "&freshToken=" + token;   //Na porcie 8081 jest postawiony moduł  UserCore i udzeżam na nim do metody login(number, freshToken)
         return restTemplate.getForEntity(url, LoginResponse.class);
     }
 
@@ -41,7 +41,7 @@ public class LoginService {
         letterByPhoneNumberReceiverResponse.setPhoneNumberReceiverResponse(phoneNumber);
         LetterByPhoneNumber letterByPhoneNumber = new LetterByPhoneNumber();
         letterByPhoneNumber.setLetterByPhoneNumberReceiverResponse(letterByPhoneNumberReceiverResponse);
-        String url = "http://localhost:8080/byPhoneNumber";
+        String url = "http://localhost:8080/byPhoneNumber";                                             //Na porcie 8080 jest postawiony moduł  LetterCore
         return restTemplate.postForEntity(url, letterByPhoneNumber, LettersByPhoneNumber.class);
     }
 }
